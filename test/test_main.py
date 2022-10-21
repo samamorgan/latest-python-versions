@@ -1,4 +1,5 @@
 import json
+import os
 
 import pytest
 import responses
@@ -22,6 +23,14 @@ def test_main_without_max_version(capsys, args, result):
         responses.add(responses.Response(method='GET', url=GHA_PYTHON_VERSIONS_URL, json=json.load(f)))
     with open('eol.json') as f:
         responses.add(responses.Response(method='GET', url=EOL_PYTHON_VERSIONS_URL, json=json.load(f)))
+
     main(*args)
+
     captured = capsys.readouterr()
     assert json.loads(captured.out) == result
+
+    github_env = os.environ['GITHUB_ENV']
+    assert github_env == 'foo'
+
+    github_output = os.environ['GITHUB_OUTPUT']
+    assert github_output == 'bar'
