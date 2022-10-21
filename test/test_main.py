@@ -29,8 +29,5 @@ def test_main_without_max_version(capsys, args, result):
     captured = capsys.readouterr()
     assert json.loads(captured.out) == result
 
-    github_env = os.environ['GITHUB_ENV']
-    assert github_env == 'foo'
-
     github_output = os.environ['GITHUB_OUTPUT']
     assert github_output == 'bar'
