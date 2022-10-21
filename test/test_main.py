@@ -30,4 +30,5 @@ def test_main_without_max_version(capsys, args, result):
     assert json.loads(captured.out) == result
 
     github_output = os.environ['GITHUB_OUTPUT']
-    assert github_output == 'bar'
+    with open(github_output) as f:
+        assert f.read() == 'bar'
